@@ -5,13 +5,13 @@ import (
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/base64"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"sort"
 	"strings"
 	"time"
+	"encoding/json"
 )
 
 var client http.Client
@@ -22,7 +22,7 @@ func init() {
 	}
 }
 
-func sendRequest(httpMethod, urlPath string, xpathHeaders, parameters map[string]string, credentials Credentials) *Response {
+func sendRequest(httpMethod, urlPath string, xpathHeaders, parameters map[string]string, credentials Credentials) *LatchResponse {
 
 	var body string
 	url := LatchHost + urlPath
@@ -48,9 +48,14 @@ func sendRequest(httpMethod, urlPath string, xpathHeaders, parameters map[string
 	}
 	defer res.Body.Close()
 
-	data, err := ioutil.ReadAll(res.Body)
+	//data, err := ioutil.ReadAll(res.Body)
+	data := LatchResponse{}
+	err = json.NewDecoder(res.Body).Decode(&data)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	return &Response{string(data)}
+	return &data
 
 }
 

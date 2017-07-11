@@ -27,7 +27,7 @@ func NewLatchApplication(credentials Credentials) *LatchApplication {
 	return &LatchApplication{credentials}
 }
 
-func (application *LatchApplication) PairWithId(accountId string) *Response {
+func (application *LatchApplication) PairWithId(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
@@ -39,7 +39,7 @@ func (application *LatchApplication) PairWithId(accountId string) *Response {
 
 }
 
-func (application *LatchApplication) PairWithToken(token string) *Response {
+func (application *LatchApplication) PairWithToken(token string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
@@ -51,7 +51,7 @@ func (application *LatchApplication) PairWithToken(token string) *Response {
 
 }
 
-func (application *LatchApplication) Unpair(accountId string) *Response {
+func (application *LatchApplication) Unpair(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
@@ -62,7 +62,7 @@ func (application *LatchApplication) Unpair(accountId string) *Response {
 
 }
 
-func (application *LatchApplication) Status(accountId string, nootp, silent bool) *Response {
+func (application *LatchApplication) Status(accountId string, nootp, silent bool) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
@@ -82,7 +82,7 @@ func (application *LatchApplication) Status(accountId string, nootp, silent bool
 
 }
 
-func (application *LatchApplication) OperationStatus(accountId, operationId string, nootp, silent bool) *Response {
+func (application *LatchApplication) OperationStatus(accountId, operationId string, nootp, silent bool) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
@@ -104,7 +104,7 @@ func (application *LatchApplication) OperationStatus(accountId, operationId stri
 
 }
 
-func (application *LatchApplication) Lock(accountId string) *Response {
+func (application *LatchApplication) Lock(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
@@ -115,7 +115,7 @@ func (application *LatchApplication) Lock(accountId string) *Response {
 
 }
 
-func (application *LatchApplication) Unlock(accountId string) *Response {
+func (application *LatchApplication) Unlock(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
@@ -127,7 +127,7 @@ func (application *LatchApplication) Unlock(accountId string) *Response {
 
 }
 
-func (application *LatchApplication) History(accountId string, from, to time.Time) *Response {
+func (application *LatchApplication) History(accountId string, from, to time.Time) *LatchResponse {
 
 	var urlPath bytes.Buffer
 	fromMilis := from.UnixNano() / int64(time.Millisecond)
@@ -149,7 +149,7 @@ func (application *LatchApplication) History(accountId string, from, to time.Tim
  * Operations
  */
 
-func (application *LatchApplication) CreateOperation(parentId, name, twoFactor, lockOnRequest string) *Response {
+func (application *LatchApplication) CreateOperation(parentId, name, twoFactor, lockOnRequest string) *LatchResponse {
 
 	parameters := map[string]string{
 		"parentId":        parentId,
@@ -162,7 +162,7 @@ func (application *LatchApplication) CreateOperation(parentId, name, twoFactor, 
 
 }
 
-func (application *LatchApplication) UpdateOperation(operationId, name, twoFactor, lockOnRequest string) *Response {
+func (application *LatchApplication) UpdateOperation(operationId, name, twoFactor, lockOnRequest string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 	urlPath.WriteString(OperationUrl)
@@ -179,7 +179,7 @@ func (application *LatchApplication) UpdateOperation(operationId, name, twoFacto
 
 }
 
-func (application *LatchApplication) DeleteOperation(operationId string) *Response {
+func (application *LatchApplication) DeleteOperation(operationId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 	urlPath.WriteString(OperationUrl)
@@ -190,7 +190,7 @@ func (application *LatchApplication) DeleteOperation(operationId string) *Respon
 
 }
 
-func (application *LatchApplication) GetOperations() *Response {
+func (application *LatchApplication) GetOperations() *LatchResponse {
 
 	var urlPath bytes.Buffer
 	urlPath.WriteString(OperationUrl)
@@ -199,7 +199,7 @@ func (application *LatchApplication) GetOperations() *Response {
 
 }
 
-func (application *LatchApplication) GetOperation(operationId string) *Response {
+func (application *LatchApplication) GetOperation(operationId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 	urlPath.WriteString(OperationUrl)
@@ -214,7 +214,7 @@ func (application *LatchApplication) GetOperation(operationId string) *Response 
  * Instances
  */
 
-func (application *LatchApplication) GetInstances(accountId string) *Response {
+func (application *LatchApplication) GetInstances(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 	urlPath.WriteString(InstanceUrl)
@@ -225,7 +225,7 @@ func (application *LatchApplication) GetInstances(accountId string) *Response {
 
 }
 
-func (application *LatchApplication) CreateInstance(accountId, operationId, name string) *Response {
+func (application *LatchApplication) CreateInstance(accountId, operationId, name string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 	urlPath.WriteString(InstanceUrl)
@@ -245,7 +245,7 @@ func (application *LatchApplication) CreateInstance(accountId, operationId, name
 
 }
 
-func (application *LatchApplication) UpdateInstance(instanceId, accountId, operationId, name, two_factor, lock_on_request string) *Response {
+func (application *LatchApplication) UpdateInstance(instanceId, accountId, operationId, name, two_factor, lock_on_request string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 	urlPath.WriteString(InstanceUrl)
@@ -268,7 +268,7 @@ func (application *LatchApplication) UpdateInstance(instanceId, accountId, opera
 
 }
 
-func (application *LatchApplication) DeleteInstance(instanceId, accountId, operationId string) *Response {
+func (application *LatchApplication) DeleteInstance(instanceId, accountId, operationId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 	urlPath.WriteString(InstanceUrl)

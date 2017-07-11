@@ -1,5 +1,8 @@
 package latch
 
-type Response struct {
-	data string
+import "encoding/json"
+
+type LatchResponse struct {
+	Data json.RawMessage
+	Error json.RawMessage
 }

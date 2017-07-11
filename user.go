@@ -18,19 +18,19 @@ func NewLatchUser(credentials Credentials) *LatchUser {
 	return &LatchUser{credentials}
 }
 
-func (user *LatchUser) GetSubscription() *Response {
+func (user *LatchUser) GetSubscription() *LatchResponse {
 
 	return sendRequest(http.MethodGet, SubscriptionUrl, nil, nil, user.credentials)
 
 }
 
-func (user *LatchUser) GetApplications() *Response {
+func (user *LatchUser) GetApplications() *LatchResponse {
 
 	return sendRequest(http.MethodGet, ApplicationUrl, nil, nil, user.credentials)
 
 }
 
-func (user *LatchUser) CreateApplication(name, twoFactor, lockOnRequest, contactPhone, contactEmail string) *Response {
+func (user *LatchUser) CreateApplication(name, twoFactor, lockOnRequest, contactPhone, contactEmail string) *LatchResponse {
 
 	parameters := map[string]string{
 		"name":            name,
@@ -44,7 +44,7 @@ func (user *LatchUser) CreateApplication(name, twoFactor, lockOnRequest, contact
 
 }
 
-func (user *LatchUser) DeleteApplication(applicationId string) *Response {
+func (user *LatchUser) DeleteApplication(applicationId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
@@ -56,7 +56,7 @@ func (user *LatchUser) DeleteApplication(applicationId string) *Response {
 
 }
 
-func (user *LatchUser) UpdateApplication(applicationId, name, twoFactor, lockOnRequest, contactPhone, contactEmail string) *Response {
+func (user *LatchUser) UpdateApplication(applicationId, name, twoFactor, lockOnRequest, contactPhone, contactEmail string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
