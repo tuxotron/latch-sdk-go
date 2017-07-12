@@ -32,12 +32,16 @@ func (user *LatchUser) GetApplications() *LatchResponse {
 
 func (user *LatchUser) CreateApplication(name, twoFactor, lockOnRequest, contactPhone, contactEmail string) *LatchResponse {
 
+	/*
+	 * The
+	 */
+
 	parameters := map[string]string{
-		"name":            name,
-		"two_factor":      twoFactor,
-		"lock_on_request": lockOnRequest,
-		"contactPhone":    contactPhone,
-		"contactEmail":    contactEmail,
+		NameParameter:          name,
+		TwoFactorParameter:     twoFactor,
+		LockOnRequestParameter: lockOnRequest,
+		ContactPhone:           contactPhone,
+		ContactEmail:           contactEmail,
 	}
 
 	return sendRequest(http.MethodPut, ApplicationUrl, nil, parameters, user.credentials)
@@ -65,11 +69,11 @@ func (user *LatchUser) UpdateApplication(applicationId, name, twoFactor, lockOnR
 	urlPath.WriteString(applicationId)
 
 	parameters := map[string]string{
-		"name":            name,
-		"two_factor":      twoFactor,
-		"lock_on_request": lockOnRequest,
-		"contactPhone":    contactPhone,
-		"email":           contactEmail,
+		NameParameter:          name,
+		TwoFactorParameter:     twoFactor,
+		LockOnRequestParameter: lockOnRequest,
+		ContactPhone:           contactPhone,
+		ContactEmail:           contactEmail,
 	}
 
 	return sendRequest(http.MethodPost, urlPath.String(), nil, parameters, user.credentials)

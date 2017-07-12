@@ -20,14 +20,6 @@ const (
 	instanceUrl    = "/api/" + Version + "/instance"
 )
 
-// Parameter names
-const (
-	parentIdParameter      = "parentId"
-	nameParameter          = "name"
-	twoFactorParameter     = "two_factor"
-	lockOnRequestParameter = "lock_on_request"
-)
-
 type LatchApplication struct {
 	credentials Credentials
 }
@@ -161,10 +153,10 @@ func (application *LatchApplication) History(accountId string, from, to time.Tim
 func (application *LatchApplication) CreateOperation(parentId, name, twoFactor, lockOnRequest string) *LatchResponse {
 
 	parameters := map[string]string{
-		parentIdParameter:      parentId,
-		nameParameter:          name,
-		twoFactorParameter:     twoFactor,
-		lockOnRequestParameter: lockOnRequest,
+		ParentIdParameter:      parentId,
+		NameParameter:          name,
+		TwoFactorParameter:     twoFactor,
+		LockOnRequestParameter: lockOnRequest,
 	}
 
 	return sendRequest(http.MethodPut, operationUrl, nil, parameters, application.credentials)
@@ -179,9 +171,9 @@ func (application *LatchApplication) UpdateOperation(operationId, name, twoFacto
 	urlPath.WriteString(operationId)
 
 	parameters := map[string]string{
-		nameParameter:          name,
-		twoFactorParameter:     twoFactor,
-		lockOnRequestParameter: lockOnRequest,
+		NameParameter:          name,
+		TwoFactorParameter:     twoFactor,
+		LockOnRequestParameter: lockOnRequest,
 	}
 
 	return sendRequest(http.MethodPost, urlPath.String(), nil, parameters, application.credentials)
@@ -268,9 +260,9 @@ func (application *LatchApplication) UpdateInstance(instanceId, accountId, opera
 	urlPath.WriteString(instanceId)
 
 	parameters := map[string]string{
-		"name":            name,
-		"two_factor":      two_factor,
-		"lock_on_request": lock_on_request,
+		NameParameter:          name,
+		TwoFactorParameter:     two_factor,
+		LockOnRequestParameter: lock_on_request,
 	}
 
 	return sendRequest(http.MethodPost, urlPath.String(), nil, parameters, application.credentials)

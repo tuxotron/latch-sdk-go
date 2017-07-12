@@ -5,29 +5,27 @@ const (
 	LatchHost = "https://latch.elevenpaths.com"
 )
 
+// Parameter names
+const (
+	ParentIdParameter      = "parentId"
+	NameParameter          = "name"
+	TwoFactorParameter     = "two_factor"
+	LockOnRequestParameter = "lock_on_request"
+	ContactPhone           = "contactPhone"
+	ContactEmail           = "contactEmail"
+)
+
 type Credentials struct {
 	Id     string
 	Secret string
 }
 
 // Holds allowed values for two_factor parameter
-type twoFactor struct {
-	Mandatory string
-	OptIn     string
-	Disabled  string
-}
+var TwoFactor = struct {
+	Mandatory, OptIn, Disabled string
+}{"MANDATORY", "OPT_IN", "DISABLED"}
 
 // Holds allowed values for lock_on_request parameter
-type lockOnRequest struct {
-	Mandatory string
-	OptIn     string
-	Disabled  string
-}
-
-var TwoFactor twoFactor
-var LockOnRequest lockOnRequest
-
-func init() {
-	TwoFactor = twoFactor{"MANDATORY", "OPT_IN", "DISABLED"}
-	LockOnRequest = lockOnRequest{"MANDATORY", "OPT_IN", "DISABLED"}
-}
+var LockOnRequest = struct {
+	Mandatory, OptIn, Disabled string
+}{"MANDATORY", "OPT_IN", "DISABLED"}
