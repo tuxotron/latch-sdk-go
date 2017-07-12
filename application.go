@@ -7,16 +7,25 @@ import (
 	"time"
 )
 
+// URLs
 const (
-	CheckStatusUrl = "/api/" + Version + "/status"
-	PairTokenUrl   = "/api/" + Version + "/pair"
-	PairIdUrl      = "/api/" + Version + "/pairWithId"
-	UnpairUrl      = "/api/" + Version + "/unpair"
-	LockUrl        = "/api/" + Version + "/lock"
-	UnlockUrl      = "/api/" + Version + "/unlock"
-	HistoryUrl     = "/api/" + Version + "/history"
-	OperationUrl   = "/api/" + Version + "/operation"
-	InstanceUrl    = "/api/" + Version + "/instance"
+	checkStatusUrl = "/api/" + Version + "/status"
+	pairTokenUrl   = "/api/" + Version + "/pair"
+	pairIdUrl      = "/api/" + Version + "/pairWithId"
+	unpairUrl      = "/api/" + Version + "/unpair"
+	lockUrl        = "/api/" + Version + "/lock"
+	unlockUrl      = "/api/" + Version + "/unlock"
+	historyUrl     = "/api/" + Version + "/history"
+	operationUrl   = "/api/" + Version + "/operation"
+	instanceUrl    = "/api/" + Version + "/instance"
+)
+
+// Parameter names
+const (
+	parentIdParameter      = "parentId"
+	nameParameter          = "name"
+	twoFactorParameter     = "two_factor"
+	lockOnRequestParameter = "lock_on_request"
 )
 
 type LatchApplication struct {
@@ -31,7 +40,7 @@ func (application *LatchApplication) PairWithId(accountId string) *LatchResponse
 
 	var urlPath bytes.Buffer
 
-	urlPath.WriteString(PairIdUrl)
+	urlPath.WriteString(pairIdUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 
@@ -43,7 +52,7 @@ func (application *LatchApplication) PairWithToken(token string) *LatchResponse 
 
 	var urlPath bytes.Buffer
 
-	urlPath.WriteString(PairTokenUrl)
+	urlPath.WriteString(pairTokenUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(token)
 
@@ -55,7 +64,7 @@ func (application *LatchApplication) Unpair(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
-	urlPath.WriteString(UnpairUrl)
+	urlPath.WriteString(unpairUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 	return sendRequest(http.MethodGet, urlPath.String(), nil, nil, application.credentials)
@@ -66,7 +75,7 @@ func (application *LatchApplication) Status(accountId string, nootp, silent bool
 
 	var urlPath bytes.Buffer
 
-	urlPath.WriteString(CheckStatusUrl)
+	urlPath.WriteString(checkStatusUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 
@@ -86,7 +95,7 @@ func (application *LatchApplication) OperationStatus(accountId, operationId stri
 
 	var urlPath bytes.Buffer
 
-	urlPath.WriteString(CheckStatusUrl)
+	urlPath.WriteString(checkStatusUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 	urlPath.WriteString("/op/")
@@ -108,7 +117,7 @@ func (application *LatchApplication) Lock(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
-	urlPath.WriteString(LockUrl)
+	urlPath.WriteString(lockUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 	return sendRequest(http.MethodPost, urlPath.String(), nil, nil, application.credentials)
@@ -119,7 +128,7 @@ func (application *LatchApplication) Unlock(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
 
-	urlPath.WriteString(UnlockUrl)
+	urlPath.WriteString(unlockUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 
@@ -133,7 +142,7 @@ func (application *LatchApplication) History(accountId string, from, to time.Tim
 	fromMilis := from.UnixNano() / int64(time.Millisecond)
 	toMilis := to.UnixNano() / int64(time.Millisecond)
 
-	urlPath.WriteString(HistoryUrl)
+	urlPath.WriteString(historyUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 	urlPath.WriteString("/")
@@ -152,27 +161,27 @@ func (application *LatchApplication) History(accountId string, from, to time.Tim
 func (application *LatchApplication) CreateOperation(parentId, name, twoFactor, lockOnRequest string) *LatchResponse {
 
 	parameters := map[string]string{
-		"parentId":        parentId,
-		"name":            name,
-		"two_factor":      twoFactor,
-		"lock_on_request": lockOnRequest,
+		parentIdParameter:      parentId,
+		nameParameter:          name,
+		twoFactorParameter:     twoFactor,
+		lockOnRequestParameter: lockOnRequest,
 	}
 
-	return sendRequest(http.MethodPut, OperationUrl, nil, parameters, application.credentials)
+	return sendRequest(http.MethodPut, operationUrl, nil, parameters, application.credentials)
 
 }
 
 func (application *LatchApplication) UpdateOperation(operationId, name, twoFactor, lockOnRequest string) *LatchResponse {
 
 	var urlPath bytes.Buffer
-	urlPath.WriteString(OperationUrl)
+	urlPath.WriteString(operationUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(operationId)
 
 	parameters := map[string]string{
-		"name":            name,
-		"two_factor":      twoFactor,
-		"lock_on_request": lockOnRequest,
+		nameParameter:          name,
+		twoFactorParameter:     twoFactor,
+		lockOnRequestParameter: lockOnRequest,
 	}
 
 	return sendRequest(http.MethodPost, urlPath.String(), nil, parameters, application.credentials)
@@ -182,7 +191,7 @@ func (application *LatchApplication) UpdateOperation(operationId, name, twoFacto
 func (application *LatchApplication) DeleteOperation(operationId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
-	urlPath.WriteString(OperationUrl)
+	urlPath.WriteString(operationUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(operationId)
 
@@ -193,7 +202,7 @@ func (application *LatchApplication) DeleteOperation(operationId string) *LatchR
 func (application *LatchApplication) GetOperations() *LatchResponse {
 
 	var urlPath bytes.Buffer
-	urlPath.WriteString(OperationUrl)
+	urlPath.WriteString(operationUrl)
 
 	return sendRequest(http.MethodGet, urlPath.String(), nil, nil, application.credentials)
 
@@ -202,7 +211,7 @@ func (application *LatchApplication) GetOperations() *LatchResponse {
 func (application *LatchApplication) GetOperation(operationId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
-	urlPath.WriteString(OperationUrl)
+	urlPath.WriteString(operationUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(operationId)
 
@@ -217,7 +226,7 @@ func (application *LatchApplication) GetOperation(operationId string) *LatchResp
 func (application *LatchApplication) GetInstances(accountId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
-	urlPath.WriteString(InstanceUrl)
+	urlPath.WriteString(instanceUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 
@@ -228,7 +237,7 @@ func (application *LatchApplication) GetInstances(accountId string) *LatchRespon
 func (application *LatchApplication) CreateInstance(accountId, operationId, name string) *LatchResponse {
 
 	var urlPath bytes.Buffer
-	urlPath.WriteString(InstanceUrl)
+	urlPath.WriteString(instanceUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 
@@ -248,7 +257,7 @@ func (application *LatchApplication) CreateInstance(accountId, operationId, name
 func (application *LatchApplication) UpdateInstance(instanceId, accountId, operationId, name, two_factor, lock_on_request string) *LatchResponse {
 
 	var urlPath bytes.Buffer
-	urlPath.WriteString(InstanceUrl)
+	urlPath.WriteString(instanceUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 	if len(operationId) > 0 {
@@ -271,7 +280,7 @@ func (application *LatchApplication) UpdateInstance(instanceId, accountId, opera
 func (application *LatchApplication) DeleteInstance(instanceId, accountId, operationId string) *LatchResponse {
 
 	var urlPath bytes.Buffer
-	urlPath.WriteString(InstanceUrl)
+	urlPath.WriteString(instanceUrl)
 	urlPath.WriteString("/")
 	urlPath.WriteString(accountId)
 	if len(operationId) > 0 {

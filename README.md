@@ -36,7 +36,3 @@ This is a **NOT** official SDK for Latch for the [Go](https://golang.org/) progr
     
     
 There are several methods (Application lock, unlock, history, User API, etc) I could not test myself because they require a *Gold* or *Platinum* subscription. 
-
-**TODO**
-
-Serialize server responses into a JSON object

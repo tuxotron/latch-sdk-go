@@ -3,6 +3,6 @@ package latch
 import "encoding/json"
 
 type LatchResponse struct {
-	Data json.RawMessage
+	Data  json.RawMessage
 	Error json.RawMessage
 }

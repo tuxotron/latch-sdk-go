@@ -5,13 +5,13 @@ import (
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/base64"
+	"encoding/json"
 	"log"
 	"net/http"
 	"net/url"
 	"sort"
 	"strings"
 	"time"
-	"encoding/json"
 )
 
 var client http.Client
