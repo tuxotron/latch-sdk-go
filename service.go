@@ -48,7 +48,6 @@ func sendRequest(httpMethod, urlPath string, xpathHeaders, parameters map[string
 	}
 	defer res.Body.Close()
 
-	//data, err := ioutil.ReadAll(res.Body)
 	data := LatchResponse{}
 	err = json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {

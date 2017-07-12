@@ -32,10 +32,6 @@ func (user *LatchUser) GetApplications() *LatchResponse {
 
 func (user *LatchUser) CreateApplication(name, twoFactor, lockOnRequest, contactPhone, contactEmail string) *LatchResponse {
 
-	/*
-	 * The
-	 */
-
 	parameters := map[string]string{
 		NameParameter:          name,
 		TwoFactorParameter:     twoFactor,
