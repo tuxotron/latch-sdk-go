@@ -8,6 +8,6 @@ type LatchResponse struct {
 }
 
 type latchErrorResponse struct {
-	Code int
+	Code    int
 	Message string
 }
